@@ -51,11 +51,12 @@ dict_cities = {'Moscow': (55.75, 37.62), 'Petersburg': (59.94, 30.31), 'Rostov':
 # Координаты городов взяты из этого истоничка: https://kakdobratsyado.ru/koordinaty-gorodov-rossii/
 
 try:
-    file = open(homedir + "/Documents/change-theme.cfg", "x")
+    file = open(homedir + "/Documents/change-theme-auto.cfg", "x")
     file.close()
-    file = open(homedir + "/Documents/change-theme.cfg", "w")
+    file = open(homedir + "/Documents/change-theme-auto.cfg", "w")
     file.write("0,20:00,10:00,0,0,0,Moscow")
     file.close()
+    client.delete_entry(RUN_REG_PATH, "ChangeThemeV01")
 except:
     pass
 
