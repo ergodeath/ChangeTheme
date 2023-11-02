@@ -71,7 +71,7 @@ print(dirThisfile)
 
 
 
-file = open(homedir + "/Documents/change-theme.cfg", "r")
+file = open(homedir + "/Documents/change-theme-auto.cfg", "r")
 cfg_status = file.read()
 file.close()
 cfg_status = cfg_status.split(',')
@@ -165,7 +165,7 @@ def save():
     else:
         cfg_status[2] = textVar2.get()
         
-    file = open(homedir + "/Documents/change-theme.cfg", "w")
+    file = open(homedir + "/Documents/change-theme-auto.cfg", "w")
     file.write(','.join(cfg_status))
     print(cfg_status)
     file.close()
