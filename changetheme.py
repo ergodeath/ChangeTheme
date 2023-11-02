@@ -254,12 +254,12 @@ if cfg_status[4] == '0':
     txt1_state = 'normal'
 else:
     txt1_state = 'readonly'
-    sunriseVar.set(1)
+    sunsetVar.set(1)
 if cfg_status[5] == '0':
     txt2_state = 'normal'
 else:
     txt2_state = 'readonly'
-    sunsetVar.set(1)
+    sunriseVar.set(1)
 
 # textVar = cfg_status[1]
 # textVar2 = cfg_status[2]
