@@ -142,11 +142,20 @@ def quit_window(icon, item):
     # exit() # Выход из цикла
     
 def check_sun_set_rise():
-    lat, lon = dict_cities.get(cfg_status[6])
-    res = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=sunrise,sunset&timezone=Europe%2FMoscow&forecast_days=1") 
-    data = res.json()
-    data = data.get('daily')
-    return {'sunset': data.get('sunset')[0][-5:], 'sunrise': data.get('sunrise')[0][-5:]}
+    try:
+        lat, lon = dict_cities.get(cfg_status[6])
+        res = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=sunrise,sunset&timezone=Europe%2FMoscow&forecast_days=1") 
+        data = res.json()
+        data = data.get('daily')
+        warningText.config(text='')
+        return {'sunset': data.get('sunset')[0][-5:], 'sunrise': data.get('sunrise')[0][-5:]}
+    except Exception:
+        sunsetVar.set(0)
+        sunriseVar.set(0)
+        sunrisefunc()
+        sunsetfunc()
+        warningText.config(text='Не удалось получить данные о солнце :(')
+        return {'sunset': cfg_status[1], 'sunrise': cfg_status[2]}
     
 def selectItemCombobox(eventObject):
     cfg_status[6] = combobox.get()
@@ -261,8 +270,6 @@ else:
     txt2_state = 'readonly'
     sunriseVar.set(1)
 
-# textVar = cfg_status[1]
-# textVar2 = cfg_status[2]
 check = Checkbutton(text='Смена темы по расписанию', variable=enabled, command=clickCheck)
 check.pack()
 txt1 = Entry(width=10, textvariable=textVar)
@@ -288,12 +295,13 @@ def sunrisefunc():
     else:
         txt2.config(state='normal')
 
+warningText = Label(text='', foreground="red")
+warningText.pack()
 
 combobox = ttk.Combobox(values=cities, state='readonly')
 combobox.pack()
 combobox.bind("<<ComboboxSelected>>", selectItemCombobox)
 combobox.current(cities.index(cfg_status[6]))
-# print(combobox.get())
 
 sunset = Checkbutton(text='Включать dark theme во время заката', variable=sunsetVar, command=sunsetfunc)
 sunset.pack()
@@ -309,7 +317,6 @@ checkAutoStart.pack()
 
 btn = Button(text="change theme", command=changetheme)
 btn.pack()
-
 
 
 # texttext = Label(text=f"{dirThisfile}, {__file__}, {curdir}, {argv[0]}")
